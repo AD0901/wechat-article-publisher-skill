@@ -16,11 +16,34 @@
 
 ## 功能特性
 
+- **多主题支持** — 内置 4 种视觉风格：简约专业风、清新科技风、暖色人文风、赛博朋克霓虹风
 - **自然语言转 CSS** — 用自然语言描述视觉需求，自动生成符合微信公众号排版规范的 CSS 样式
 - **微信 DOM 兼容** — 严格遵循 `#wenyan` 命名空间约束，确保样式在微信公众号编辑器中正确渲染
 - **全元素覆盖** — 支持标题 (H1-H6)、段落、引用块、代码块、分割线、超链接、图片、表格等所有常用排版元素
-- **高级视觉效果** — 支持 CSS 伪元素、渐变背景、内联 SVG/Base64 图片等高级特性
+- **HTML 兼容性检查** — 自动扫描生成的 HTML，确保不使用微信不支持的 CSS 属性
+- **封面图生成** — 根据主题风格自动生成 900×383 封面图，支持中文字体
 - **一键发布** — 生成样式后可直接推送到公众号草稿箱，无缝衔接发布流程
+
+## 项目结构
+
+```
+generate-wechat-theme/
+├── SKILL.md                      # Claude Code 技能定义文档
+├── evals/
+│   └── evals.json                # 技能评估用例
+└── scripts/
+    ├── publish_multi_theme.py    # 多主题发布脚本（推荐）
+    └── publish_wechat.py         # 单主题发布脚本（旧版）
+```
+
+## 预置主题
+
+| 主题 | 风格描述 | 适用场景 |
+| :--- | :--- | :--- |
+| **minimal** | 简约专业风，黑白灰配色 | 技术文档、正式报告 |
+| **tech** | 清新科技风，蓝色主调 | AI/技术博客、产品介绍 |
+| **warm** | 暖色人文风，橙棕色调 | 知识科普、生活分享 |
+| **cyber** | 赛博朋克霓虹风，深色背景 | 创意内容、技术演示 |
 
 ## 前置条件
 
@@ -43,19 +66,16 @@ npm install -g @anthropic-ai/claude-code
 
 > ⚠️ **注意**：AppSecret 仅在生成时显示一次，请妥善保存。你需要将公众号 IP 加入白名单才能调用 API。
 
-### 3. 配置 Claude Code 环境变量
+### 3. 配置微信凭证
 
-将你的微信公众号凭证设置为 Claude Code 的环境变量：
+将你的微信公众号凭证保存到 `~/.wechat/config`：
 
 ```bash
-# 添加到 ~/.claude/settings.json 的 env 字段中
-# 或通过 Claude Code 的 /config 命令配置
+mkdir -p ~/.wechat
+echo 'WECHAT_APPID=wxXXXXXXXXXXXXXXXX' >> ~/.wechat/config
+echo 'WECHAT_APPSECRET=your_secret' >> ~/.wechat/config
+chmod 600 ~/.wechat/config
 ```
-
-需要配置的环境变量：
-
-- `WECHAT_APP_ID` — 你的公众号 AppID
-- `WECHAT_APP_SECRET` — 你的公众号 AppSecret
 
 ## 安装技能
 
@@ -63,7 +83,7 @@ npm install -g @anthropic-ai/claude-code
 
 ```bash
 mkdir -p ~/.claude/skills
-git clone https://github.com/pengcong2020520/generate-wechat-theme.git ~/.claude/skills/generate-wechat-theme
+git clone https://github.com/pengcong2020520/generate-wechat-theme-skill.git ~/.claude/skills/generate-wechat-theme
 ```
 
 然后在 Claude Code 中通过 `/generate-wechat-theme` 调用。
@@ -82,12 +102,49 @@ git clone https://github.com/pengcong2020520/generate-wechat-theme.git ~/.claude
 
 > 帮我把这篇文章排成简约科技博客风格：蓝色主色调，代码块深色背景，引用块左边框加粗，标题居中显示。
 
+### 命令行用法
+
+#### 多主题发布（推荐）
+
+```bash
+python3 scripts/publish_multi_theme.py \
+  --article 文章.md \
+  --title "文章标题" \
+  --author "作者" \
+  --digest "摘要" \
+  --themes cyber
+```
+
+支持的参数：
+
+| 参数 | 说明 |
+| :--- | :--- |
+| `--article` | Markdown 文章路径（必填） |
+| `--title` | 文章标题（必填） |
+| `--author` | 作者名称 |
+| `--digest` | 文章摘要 |
+| `--themes` | 主题列表，逗号分隔：`minimal,tech,warm,cyber` |
+| `--cover-main` | 封面主标题（留空时自动推断） |
+| `--cover-subtitle` | 封面副标题（留空时自动推断） |
+| `--replace-media-id` | 创建新草稿成功后删除指定旧草稿 |
+
+#### 替换旧草稿
+
+```bash
+python3 scripts/publish_multi_theme.py \
+  --article 文章.md \
+  --title "文章标题" \
+  --themes cyber \
+  --replace-media-id "旧草稿media_id"
+```
+
 ### 工作流程
 
 1. **描述需求** — 用自然语言告诉 AI 你想要的风格和文章内容
 2. **生成 CSS** — AI 会根据你的描述生成符合微信规范的 CSS 样式表
-3. **预览渲染** — 生成的样式通过 Markdown 原文渲染为微信兼容的 HTML
-4. **发布到草稿箱**（可选）— 确认后可直接推送到公众号草稿箱
+3. **兼容性检查** — 自动扫描 HTML 确保不使用微信不支持的 CSS 属性
+4. **生成封面** — 根据主题风格生成 900×383 封面图
+5. **发布到草稿箱**（可选）— 确认后可直接推送到公众号草稿箱
 
 ### 支持的排版元素
 
@@ -108,6 +165,15 @@ git clone https://github.com/pengcong2020520/generate-wechat-theme.git ~/.claude
 所有生成的 CSS 必须在 `#wenyan` 命名空间下运行，这是微信公众号编辑器的 DOM 结构约束。技能会自动处理这一限制，你无需手动添加前缀。
 
 外部资源（如背景图片）需使用 Data URI 或 HTTPS 链接，不支持本地文件路径和 Web 字体（`@font-face`）。
+
+## 错误码速查
+
+| errcode | 含义 | 处理 |
+| :--- | :--- | :--- |
+| 40164 | IP 不在白名单 | 用 `curl ifconfig.me` 获取出口 IP，去公众号后台添加 |
+| 40007 | 缺少 thumb_media_id | 检查封面图是否上传成功 |
+| 48001 | API 未授权 | 订阅号不支持 API 发布，手动去草稿箱发布 |
+| 40001 | token 过期 | 重新获取 |
 
 ## 致谢
 

@@ -1,55 +1,58 @@
-# generate-wechat-theme
+# wechat-article-publisher
 
-> Claude Code 技能：微信公众号文章排版与发布完整工作流
+> Claude Code 技能：逐字稿 → 公众号草稿箱完整工作流
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-**generate-wechat-theme** 是一个 [Claude Code](https://claude.ai/code) 技能（Skill），专为微信公众号创作者设计。它能够根据你提供的文章内容和视觉风格需求，自动生成微信兼容的内联样式 HTML，并支持一键发布到公众号草稿箱。
+**wechat-article-publisher** 是一个 [Claude Code](https://claude.ai/code) 技能（Skill），专为微信公众号创作者设计。它能将口语化逐字稿、草稿转化为具有个人风格的公众号文章，自动匹配视觉主题，AI 生成配图，并发布到公众号草稿箱。
 
 ## 预览
 
-只需用自然语言描述你想要的文章风格，AI 就能生成对应的微信排版主题：
+只需提供逐字稿或口述内容，AI 就能完成从内容分析到草稿箱发布的全流程：
 
-- 🎨 "赛博朋克风格，深色背景，霓虹色标题"
-- 🌸 "清新文艺风，浅粉色调，圆角卡片引用块"
-- 📝 "极简技术博客风，无衬线字体，代码块深色主题"
+- 分析内容调性，推荐最佳视觉主题
+- 生成文章大纲、配图计划
+- 全文撰写，保留你的个人风格
+- AI 生图（HTML 渲染 + 截图）插入正文
+- 一键发布到公众号草稿箱
 
 ## 功能特性
 
-- **多主题支持** — 内置 4 种视觉风格：简约专业风、清新科技风、暖色人文风、赛博朋克霓虹风
-- **自然语言转 CSS** — 用自然语言描述视觉需求，自动生成符合微信公众号排版规范的 CSS 样式
-- **微信 DOM 兼容** — 严格遵循 `#wenyan` 命名空间约束，确保样式在微信公众号编辑器中正确渲染
-- **全元素覆盖** — 支持标题 (H1-H6)、段落、引用块、代码块、分割线、超链接、图片、表格等所有常用排版元素
-- **HTML 兼容性检查** — 自动扫描生成的 HTML，确保不使用微信不支持的 CSS 属性
-- **封面图生成** — 根据主题风格自动生成 900×383 封面图，支持中文字体
-- **一键发布** — 生成样式后可直接推送到公众号草稿箱，无缝衔接发布流程
+- **逐字稿转文章** — 将口语化内容转化为结构清晰、风格统一的公众号文章
+- **6 套视觉主题** — 柔和玉米、物理猫薄荷、彩虹、岩灰、墨韵、电光蓝，按内容自动匹配
+- **AI 配图生成** — HTML 渲染图表 + Playwright 截图 + 微信 CDN 上传，全自动流程
+- **个人风格保留** — 基于 9 篇文章分析的个人风格指南，涵盖开头钩子、段落节奏、加粗系统、比喻系统等
+- **三确认点工作流** — 主题选择 → 大纲框架 → 完稿，关键节点用户把控，其余全自动
+- **微信 DOM 兼容** — 严格遵循微信公众号 CSS 白名单，确保样式正确渲染
+- **封面图生成** — 根据主题风格自动生成封面图
+- **草稿箱管理** — 创建新草稿后自动删除旧草稿，安全替换
 
 ## 项目结构
 
 ```
-generate-wechat-theme/
-├── SKILL.md                      # Claude Code 技能定义文档
-├── evals/
-│   └── evals.json                # 技能评估用例
+wechat-article-publisher/
+├── SKILL.md                          # Claude Code 技能定义文档
+├── references/
+│   ├── themes.md                     # 6 套视觉主题的完整色彩定义
+│   └── style-guide.md                # 作者个人风格指南（9 篇文章分析）
 └── scripts/
-    ├── publish_multi_theme.py    # 多主题发布脚本（推荐）
-    └── publish_wechat.py         # 单主题发布脚本（旧版）
+    └── upload_body_images.py         # 批量上传正文图片到微信 CDN
 ```
 
 ## 预置主题
 
 | 主题 | 风格描述 | 适用场景 |
 | :--- | :--- | :--- |
-| **minimal** | 简约专业风，黑白灰配色 | 技术文档、正式报告 |
-| **tech** | 清新科技风，蓝色主调 | AI/技术博客、产品介绍 |
-| **warm** | 暖色人文风，橙棕色调 | 知识科普、生活分享 |
-| **cyber** | 赛博朋克霓虹风，深色背景 | 创意内容、技术演示 |
+| **Maize** 柔和玉米 | 暖纸色底，玉米金强调 | 个人复盘、踩坑分享 |
+| **Mint** 物理猫-薄荷 | 纯白底，薄荷青克制配色 | 技术教程、工具推荐 |
+| **Rainbow** 彩虹 | 暖色调多色点缀 | 温暖分享、轻松话题 |
+| **Slate** 岩灰 | 极简高级灰，专业克制 | 深度分析、行业判断 |
+| **Ink** 墨韵 | 宣纸美学，金褐点缀 | 哲学思考、东方美学 |
+| **Electric** 电光蓝 | 纯白底，极致对比 | 前沿趋势、颠覆观点 |
 
 ## 前置条件
 
 ### 1. 安装 Claude Code
-
-本技能基于 Claude Code 运行，请先安装：
 
 ```bash
 npm install -g @anthropic-ai/claude-code
@@ -57,7 +60,7 @@ npm install -g @anthropic-ai/claude-code
 
 ### 2. 获取微信公众号开发者凭证
 
-你需要从 [微信公众平台](https://mp.weixin.qq.com/) 获取以下信息：
+从 [微信公众平台](https://mp.weixin.qq.com/) 获取：
 
 | 参数 | 说明 |
 | :--- | :--- |
@@ -68,13 +71,17 @@ npm install -g @anthropic-ai/claude-code
 
 ### 3. 配置微信凭证
 
-将你的微信公众号凭证保存到 `~/.wechat/config`：
-
 ```bash
 mkdir -p ~/.wechat
 echo 'WECHAT_APPID=wxXXXXXXXXXXXXXXXX' >> ~/.wechat/config
 echo 'WECHAT_APPSECRET=your_secret' >> ~/.wechat/config
 chmod 600 ~/.wechat/config
+```
+
+### 4. 安装 Playwright（用于 AI 配图）
+
+```bash
+npx playwright install chromium
 ```
 
 ## 安装技能
@@ -83,68 +90,39 @@ chmod 600 ~/.wechat/config
 
 ```bash
 mkdir -p ~/.claude/skills
-git clone https://github.com/pengcong2020520/generate-wechat-theme-skill.git ~/.claude/skills/generate-wechat-theme
+git clone https://github.com/pengcong2020520/generate-wechat-theme-skill.git ~/.claude/skills/wechat-article-publisher
 ```
 
-然后在 Claude Code 中通过 `/generate-wechat-theme` 调用。
+需要同时安装依赖技能 `generate-wechat-theme`（用于封面生成和草稿创建）：
+
+```bash
+git clone https://github.com/pengcong2020520/generate-wechat-theme-skill.git ~/.claude/skills/generate-wechat-theme
+```
 
 ## 使用指南
 
 ### 基本用法
 
-在 Claude Code 中输入：
+在 Claude Code 中，直接描述你的需求即可触发技能：
 
-```
-/generate-wechat-theme
-```
+> 帮我把这篇逐字稿写成公众号文章
 
-然后描述你的需求，例如：
-
-> 帮我把这篇文章排成简约科技博客风格：蓝色主色调，代码块深色背景，引用块左边框加粗，标题居中显示。
-
-### 命令行用法
-
-#### 多主题发布（推荐）
-
-```bash
-python3 scripts/publish_multi_theme.py \
-  --article 文章.md \
-  --title "文章标题" \
-  --author "作者" \
-  --digest "摘要" \
-  --themes cyber
-```
-
-支持的参数：
-
-| 参数 | 说明 |
-| :--- | :--- |
-| `--article` | Markdown 文章路径（必填） |
-| `--title` | 文章标题（必填） |
-| `--author` | 作者名称 |
-| `--digest` | 文章摘要 |
-| `--themes` | 主题列表，逗号分隔：`minimal,tech,warm,cyber` |
-| `--cover-main` | 封面主标题（留空时自动推断） |
-| `--cover-subtitle` | 封面副标题（留空时自动推断） |
-| `--replace-media-id` | 创建新草稿成功后删除指定旧草稿 |
-
-#### 替换旧草稿
-
-```bash
-python3 scripts/publish_multi_theme.py \
-  --article 文章.md \
-  --title "文章标题" \
-  --themes cyber \
-  --replace-media-id "旧草稿media_id"
-```
+> 整理一下我的口述内容做成推文
 
 ### 工作流程
 
-1. **描述需求** — 用自然语言告诉 AI 你想要的风格和文章内容
-2. **生成 CSS** — AI 会根据你的描述生成符合微信规范的 CSS 样式表
-3. **兼容性检查** — 自动扫描 HTML 确保不使用微信不支持的 CSS 属性
-4. **生成封面** — 根据主题风格生成 900×383 封面图
-5. **发布到草稿箱**（可选）— 确认后可直接推送到公众号草稿箱
+1. **内容分析 & 主题推荐** — AI 分析逐字稿的话题领域、情绪调性，推荐最佳视觉主题和标题方向 → 🤝 用户确认
+2. **大纲框架 & 配图计划** — 生成文章结构大纲、开头钩子策略、结尾收束策略、核心比喻、3-5 处配图计划 → 🤝 用户确认
+3. **全文撰写** — 按个人风格指南写作，配图位置用占位符标记 → 🤝 用户确认
+4. **AI 生图 & 排版发布** — HTML 渲染图表 → Playwright 截图 → 上传微信 CDN → 替换占位符 → 发布草稿箱（全自动）
+
+### 命令行用法
+
+上传正文图片到微信 CDN：
+
+```bash
+python3 scripts/upload_body_images.py image1.png image2.png
+```
 
 ### 支持的排版元素
 
@@ -162,9 +140,11 @@ python3 scripts/publish_multi_theme.py \
 
 ## 技术说明
 
-所有生成的 CSS 必须在 `#wenyan` 命名空间下运行，这是微信公众号编辑器的 DOM 结构约束。技能会自动处理这一限制，你无需手动添加前缀。
+所有生成的 CSS 必须在 `#wenyan` 命名空间下运行，这是微信公众号编辑器的 DOM 结构约束。
 
 外部资源（如背景图片）需使用 Data URI 或 HTTPS 链接，不支持本地文件路径和 Web 字体（`@font-face`）。
+
+正文图片使用 `media/uploadimg` 接口上传（非 `material/add_material`），返回微信 CDN URL 后嵌入 HTML。
 
 ## 错误码速查
 
@@ -177,7 +157,7 @@ python3 scripts/publish_multi_theme.py \
 
 ## 致谢
 
-本项目深受 [wenyan](https://wenyan.yuzhi.tech/) 启发，CSS 渲染机制部分参考了其在微信公众号排版领域的开创性工作。感谢 wenyan 项目为微信公众号排版生态做出的贡献。
+本项目深受 [wenyan](https://wenyan.yuzhi.tech/) 启发，CSS 渲染机制部分参考了其在微信公众号排版领域的开创性工作。
 
 ## License
 

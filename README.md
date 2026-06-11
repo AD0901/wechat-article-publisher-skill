@@ -4,13 +4,13 @@
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-**wechat-article-publisher** 是一个面向公众号创作者的 Agent Skill。它能将口语化逐字稿、草稿或选题转化为具有个人风格的公众号文章，自动匹配视觉主题，按 `gpt-image-2 → step-image-edit-2 → HTML` 的顺序生成封面和配图，并发布到公众号草稿箱。
+**wechat-article-publisher** 是一个面向公众号创作者的 Agent Skill。它能将口语化逐字稿、草稿或选题转化为具有个人风格和极简高级视觉方案的公众号文章，按 `gpt-image-2 → step-image-edit-2 → HTML` 的顺序生成封面和配图，并发布到公众号草稿箱。
 
 ## 预览
 
 只需提供逐字稿或口述内容，AI 就能完成从内容分析到草稿箱发布的全流程：
 
-- 分析内容调性，推荐最佳视觉主题
+- 分析内容调性，推荐最佳极简高级视觉方案
 - 生成文章大纲、配图计划
 - 全文撰写，保留你的个人风格
 - AI 生图（优先 gpt-image-2，失败后尝试 StepFun step-image-edit-2，再失败降级为 HTML 渲染 + 截图）插入正文
@@ -20,7 +20,9 @@
 
 这版主要固化这些能力与经验：
 
-- **生图链路升级为三层**：封面和正文配图按 `gpt-image-2 → step-image-edit-2 → HTML` 执行；StepFun `step-image-edit-2` 作为 AI 生图的次选模型，最后才进入 HTML/Playwright 或内置封面兜底。
+- **生图链路升级为三层**：封面和正文配图按 `gpt-image-2 → step-image-edit-2 → HTML` 执行；StepFun `step-image-edit-2` 作为 AI 生图的次选模型，最后才进入 HTML/Playwright 或基础静态封面兜底。
+- **极简高级视觉系统**：主题从固定 6 选 1 升级为“极简高级基底 + 风格胶囊”，每篇文章明确背景语法、强调色、组件密度、图像气质和封面构图。
+- **轻量反重复机制**：推荐视觉方案前检查上一版或本次候选，避免连续使用相同背景、强调色、组件组合和封面构图。
 - **富排版组件库**：新增章节标题徽章、分层架构卡片、功能亮点卡片、通用分点卡片、步骤卡片、成熟度分级卡、双栏对比布局、分级判断卡片、信息/警告/建议盒子，后续文章可复用。
 - **封面优先走 gpt-image-2**：封面和正文配图先尝试 `gpt-image-2`；封面提示词必须包含 2 个具体“惊艳点”，让画面有明确记忆点。
 - **文章深度升级**：文章必须有强争议中心命题、反方观点、判断标准、因果链和现实后果，避免泛泛科普。
@@ -36,14 +38,14 @@
 ## 功能特性
 
 - **逐字稿转文章** — 将口语化内容转化为结构清晰、风格统一的公众号文章
-- **6 套视觉主题** — 柔和玉米、物理猫薄荷、彩虹、岩灰、墨韵、电光蓝，按内容自动匹配
+- **极简高级视觉系统** — 6 个风格胶囊按内容自动匹配，并用轻量反重复机制避免每篇文章长得太像
 - **AI 配图生成** — 优先使用 gpt-image-2 生成正文配图并归一化为 1200×800；不可用或无有效产出时尝试 StepFun step-image-edit-2；仍失败再降级为 HTML 渲染图表 + Playwright 截图 + 微信 CDN 上传
 - **强逻辑写作** — 正文以摘要开头，不重复标题；每篇围绕强争议命题、反方观点、判断标准和因果链展开
 - **富排版组件库** — 章节标题徽章、架构卡片、亮点卡片、通用分点卡片、步骤卡片、成熟度分级、双栏对比、分级判断卡片和提示盒子
 - **个人风格保留** — 基于 9 篇文章分析的个人风格指南，涵盖开头钩子、段落节奏、加粗系统、比喻系统等
-- **三确认点工作流** — 主题选择 → 大纲框架 → 完稿，关键节点用户把控，其余全自动
+- **三确认点工作流** — 视觉方案选择 → 大纲框架 → 完稿，关键节点用户把控，其余全自动
 - **微信 DOM 兼容** — 严格遵循微信公众号 CSS 白名单，确保样式正确渲染
-- **封面图生成** — 优先使用 gpt-image-2 生成封面并归一化为 900×383；失败时尝试 StepFun step-image-edit-2；仍失败再保留内置主题封面生成
+- **封面图生成** — 优先使用 gpt-image-2 生成封面并归一化为 900×383；失败时尝试 StepFun step-image-edit-2；仍失败再用当前视觉方案生成基础静态封面
 - **草稿箱管理** — 创建新草稿后自动删除旧草稿，安全替换
 
 ## 项目结构
@@ -52,23 +54,27 @@
 wechat-article-publisher/
 ├── SKILL.md                          # Claude Code 技能定义文档
 ├── references/
-│   ├── themes.md                     # 6 套视觉主题的完整色彩定义
+│   ├── themes.md                     # 极简高级视觉系统、风格胶囊和反重复规则
 │   └── style-guide.md                # 作者个人风格指南（9 篇文章分析）
 └── scripts/
     ├── generate_step_image.py         # StepFun step-image-edit-2 次选生图
     └── upload_body_images.py         # 批量上传正文图片到微信 CDN
 ```
 
-## 预置主题
+## 视觉系统
 
-| 主题 | 风格描述 | 适用场景 |
+新版本不再把主题当作固定模板换色，而是采用“极简高级基底 + 风格胶囊”：
+
+| 风格胶囊 | 风格描述 | 适用场景 |
 | :--- | :--- | :--- |
-| **Maize** 柔和玉米 | 暖纸色底，玉米金强调 | 个人复盘、踩坑分享 |
-| **Mint** 物理猫-薄荷 | 纯白底，薄荷青克制配色 | 技术教程、工具推荐 |
-| **Rainbow** 彩虹 | 暖色调多色点缀 | 温暖分享、轻松话题 |
-| **Slate** 岩灰 | 极简高级灰，专业克制 | 深度分析、行业判断 |
-| **Ink** 墨韵 | 宣纸美学，金褐点缀 | 哲学思考、东方美学 |
-| **Electric** 电光蓝 | 纯白底，极致对比 | 前沿趋势、颠覆观点 |
+| **Gallery White** 画廊白 | 冷白留白、细黑线、策展感 | 深度观点、产品判断、轻叙事 |
+| **Mist Report** 雾灰报告 | 雾灰底、蓝灰强调、咨询报告感 | 行业分析、管理方法、复杂论证 |
+| **Warm Paper** 暖白纸本 | 暖白纸张、墨色正文、低调金褐 | 个人复盘、人文思考、经验总结 |
+| **Mono Margin** 黑白边注 | 近单色、强编号、编辑批注感 | 犀利观点、原则清单、判断框架 |
+| **Quiet Tech** 静奢科技 | 冷白底、银灰线、少量冷色强调 | AI 工具、技术教程、系统架构 |
+| **Dark Editorial** 深色特刊 | 暗底、杂志感、低亮金色边线 | 范式转移、趋势预判、重磅观点 |
+
+旧版 Maize、Mint、Rainbow、Slate、Ink、Electric 仅作为兼容别名保留，主流程优先推荐新风格胶囊。
 
 ## 前置条件
 
@@ -117,7 +123,7 @@ codex login
 
 ### 5. 安装 gpt-image-2（首选生图方式）
 
-封面图和正文配图会优先使用 `gpt-image-2` skill。它依赖本地 Codex CLI 登录态和可用的 ChatGPT 图像生成权益；如果不可用，本 skill 会自动降级到原来的 HTML/Playwright 和内置封面方式。
+封面图和正文配图会优先使用 `gpt-image-2` skill。它依赖本地 Codex CLI 登录态和可用的 ChatGPT 图像生成权益；如果不可用，本 skill 会自动降级到 StepFun、HTML/Playwright 和基础静态封面方式。
 
 ```bash
 npx skills add https://github.com/agentspace-so/agent-skills --skill gpt-image-2 -g -a codex -y
@@ -182,11 +188,7 @@ mkdir -p ~/.claude/skills
 git clone https://github.com/pengcong2020520/generate-wechat-theme-skill.git ~/.claude/skills/wechat-article-publisher
 ```
 
-需要同时安装依赖技能 `generate-wechat-theme`（用于封面生成和草稿创建）：
-
-```bash
-git clone https://github.com/pengcong2020520/generate-wechat-theme-skill.git ~/.claude/skills/generate-wechat-theme
-```
+不要再额外安装旧版 `generate-wechat-theme` 目录；本仓库的正式 skill 名称是 `wechat-article-publisher`。
 
 ## 使用指南
 
@@ -200,7 +202,7 @@ git clone https://github.com/pengcong2020520/generate-wechat-theme-skill.git ~/.
 
 ### 工作流程
 
-1. **内容分析 & 主题推荐** — AI 分析逐字稿的话题领域、情绪调性，推荐最佳视觉主题和标题方向 → 🤝 用户确认
+1. **内容分析 & 视觉方案推荐** — AI 分析逐字稿的话题领域、情绪调性，推荐最佳风格胶囊、背景语法、组件密度、图像气质和标题方向 → 🤝 用户确认
 2. **大纲框架 & 配图计划** — 生成文章结构大纲、中心争议命题、反方观点、判断标准、因果链、核心比喻、3-5 处配图计划 → 🤝 用户确认
 3. **全文撰写** — 正文以摘要开头，不重复标题；按强争议命题和推理链写作，配图位置用占位符标记 → 🤝 用户确认
 4. **AI 生图 & 排版发布** — gpt-image-2 生成封面和正文配图；失败时尝试 StepFun step-image-edit-2；仍失败再降级 HTML 渲染图表 → Playwright 截图 → 上传微信 CDN → 替换占位符 → 发布草稿箱（全自动）
@@ -211,7 +213,7 @@ git clone https://github.com/pengcong2020520/generate-wechat-theme-skill.git ~/.
 - 正文开头不写文章标题，不使用 `# H1`。
 - 每篇文章必须有一个可争议的中心判断，优先使用“你以为 A，其实 B”的结构。
 - 至少一节回应反方观点，说明对方为什么只对了一半。
-- 标题、正文、摘要、页脚不得出现内部主题名或风格名，例如“清新科技风”“简约专业风”“Slate”“Mint”。
+- 标题、正文、摘要、页脚不得出现内部主题名或风格名，例如“清新科技风”“简约专业风”“Slate”“Mint”“Gallery White”“Quiet Tech”。
 - 创建草稿时 `author` 字段传空字符串，留给用户在公众号后台自己填写。
 
 ### gpt-image-2 封面规范
@@ -290,7 +292,7 @@ python3 scripts/upload_body_images.py image1.png image2.png
 
 - Python 临时脚本含大量中文、中文引号或 HTML 字符串时，用 bash heredoc：`<< 'ENDOFSCRIPT'`，不要直接用 Write 工具写复杂 Python 字符串。
 - WeChat HTML 中 emoji 必须使用真实 UTF-8 字符，例如 `🔵`、`⚡`，禁用 `&#XXXXX;` 这类 HTML 数字实体。
-- 生成 HTML 后必须做对比度检查，所有「背景色 + 文字色」组合都要放在当前主题背景上验证，主题切换后重新检查。
+- 生成 HTML 后必须做对比度检查，所有「背景色 + 文字色」组合都要放在当前视觉方案背景上验证，视觉方案切换后重新检查。
 - 发布替换草稿时要动态获取旧草稿：先查询草稿列表，再按标题、创建时间或本次运行记录定位要删除的 `media_id`，不要硬编码 `OLD_DRAFT`。
 - `gpt-image-2 exit 127` 通常是后台环境 `PATH` 不完整；改为前台同步执行，并显式使用 `/bin/bash /path/to/gen.sh`。
 - Playwright 模块找不到时，通常是脚本在临时目录执行导致 Node.js 找不到 `node_modules`；先 `cd /tmp && npm install playwright`，再从 `/tmp` 运行截图脚本。
@@ -303,7 +305,7 @@ python3 scripts/upload_body_images.py image1.png image2.png
 
 正文图片使用 `media/uploadimg` 接口上传（非 `material/add_material`），返回微信 CDN URL 后嵌入 HTML。封面图片使用 `material/add_material` 接口上传，得到 `thumb_media_id` 后创建草稿。StepFun 次选生图由 `scripts/generate_step_image.py` 调用 `https://api.stepfun.com/step_plan/v1/images/generations`，并将 `b64_json` 解码为本地图片。正式发布时作者字段留空，标题和正文不得出现内部主题/风格名称。
 
-`publish_multi_theme.py` 会自动把主题名追加到标题，并在 HTML 末尾追加主题页脚。正式发布前必须移除这些内部风格信息，再调用微信草稿 API 创建最终草稿。
+`publish_multi_theme.py` 等历史工具可能会自动把主题名追加到标题，并在 HTML 末尾追加主题页脚。正式发布前必须移除这些内部风格信息，再调用微信草稿 API 创建最终草稿。
 
 ### gpt-image-2 账号要求
 
@@ -322,7 +324,7 @@ python3 scripts/upload_body_images.py image1.png image2.png
 - 网络或模型服务失败
 - 脚本没有在 `~/.claude/skills`、`~/.codex/skills`、`~/.agents/skills` 中找到
 
-`gpt-image-2` 不可用时，若已配置 `STEP_API_KEY`，skill 会继续尝试 `step-image-edit-2`。StepFun 也不可用时，才进入 HTML/Playwright 或内置封面降级。
+`gpt-image-2` 不可用时，若已配置 `STEP_API_KEY`，skill 会继续尝试 `step-image-edit-2`。StepFun 也不可用时，才进入 HTML/Playwright 或基础静态封面降级。
 
 ## 错误码速查
 

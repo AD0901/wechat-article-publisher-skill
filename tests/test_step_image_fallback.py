@@ -6,6 +6,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 SKILL_PATH = ROOT / "wechat-article-publisher" / "SKILL.md"
 README_PATH = ROOT / "README.md"
+THEMES_PATH = ROOT / "wechat-article-publisher" / "references" / "themes.md"
 SCRIPT_PATH = ROOT / "wechat-article-publisher" / "scripts" / "generate_step_image.py"
 
 
@@ -120,3 +121,69 @@ class SkillRetroRulesTests(unittest.TestCase):
             "Playwright 模块找不到",
         ):
             self.assertIn(phrase, readme_text)
+
+
+class MinimalPremiumThemeSystemTests(unittest.TestCase):
+    def test_theme_reference_defines_capsule_system_and_dedup_rules(self):
+        themes_text = THEMES_PATH.read_text(encoding="utf-8")
+
+        for phrase in (
+            "极简高级基底",
+            "风格胶囊",
+            "背景语法",
+            "组件密度",
+            "图像气质",
+            "轻量反重复检查",
+            "旧主题兼容映射",
+            "Gallery White",
+            "Mist Report",
+            "Warm Paper",
+            "Mono Margin",
+            "Quiet Tech",
+            "Dark Editorial",
+        ):
+            self.assertIn(phrase, themes_text)
+
+    def test_skill_recommends_visual_plan_not_fixed_theme_only(self):
+        skill_text = SKILL_PATH.read_text(encoding="utf-8")
+
+        for phrase in (
+            "极简高级基底 + 风格胶囊",
+            "轻量反重复",
+            "推荐视觉方案",
+            "背景语法",
+            "主强调色和弱辅助色",
+            "组件密度",
+            "图像气质和封面构图",
+            "避免连续使用相同背景、强调色、组件组合和封面构图",
+        ):
+            self.assertIn(phrase, skill_text)
+
+    def test_readme_summarizes_premium_visual_capsules(self):
+        readme_text = README_PATH.read_text(encoding="utf-8")
+
+        for phrase in (
+            "极简高级视觉系统",
+            "6 个风格胶囊",
+            "轻量反重复机制",
+            "Gallery White",
+            "Mist Report",
+            "Warm Paper",
+            "Quiet Tech",
+            "旧版 Maize、Mint、Rainbow、Slate、Ink、Electric 仅作为兼容别名保留",
+        ):
+            self.assertIn(phrase, readme_text)
+
+    def test_docs_do_not_require_old_generate_wechat_theme_skill(self):
+        combined_text = "\n".join(
+            (
+                SKILL_PATH.read_text(encoding="utf-8"),
+                README_PATH.read_text(encoding="utf-8"),
+            )
+        )
+
+        self.assertIn("不要再额外安装旧版 `generate-wechat-theme` 目录", combined_text)
+        self.assertIn("基础静态封面", combined_text)
+        self.assertNotIn("~/.claude/skills/generate-wechat-theme", combined_text)
+        self.assertNotIn("@generate-wechat-theme", combined_text)
+        self.assertNotIn("需要同时安装依赖技能 `generate-wechat-theme`", combined_text)

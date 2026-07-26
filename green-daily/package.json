@@ -1,0 +1,21 @@
+{
+  "name": "green-daily-editorial-desk",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "collect": "node scripts/daily.mjs collect",
+    "prepare": "node scripts/daily.mjs prepare",
+    "prepare-demo": "node scripts/daily.mjs prepare-actual-demo",
+    "auto-select": "node scripts/daily.mjs auto-select",
+    "run": "node scripts/daily.mjs run",
+    "seed": "node scripts/daily.mjs seed",
+    "render": "node scripts/daily.mjs render",
+    "review-week": "node scripts/review.mjs 7",
+    "review-month": "node scripts/review.mjs 30",
+    "serve": "node scripts/server.mjs",
+    "weekend-window": "node skills/monday-green-tech-weekend-roundup/scripts/weekend-window.mjs"
+  },
+  "dependencies": {
+    "sharp": "^0.34.0"
+  }
+}

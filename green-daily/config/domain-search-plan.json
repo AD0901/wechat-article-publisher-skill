@@ -1,0 +1,66 @@
+{
+  "windowDays": 3,
+  "policy": "十个领域每天全部检索；没有合格新进展时记录 0 条，不跨领域凑数。",
+  "domains": [
+    {
+      "id": "energy_power",
+      "name": "新能源与电力",
+      "queries": ["新能源 电网 储能 投运 技术", "renewable power grid storage deployment technology"],
+      "preferredSources": ["国家能源局", "国际能源署 IEA", "国际可再生能源署 IRENA", "美国能源部 DOE", "NREL"]
+    },
+    {
+      "id": "building",
+      "name": "建筑",
+      "queries": ["绿色建筑 建材 热泵 建筑节能 技术", "green building heat pump building materials technology"],
+      "preferredSources": ["住房和城乡建设部", "IEA", "UNEP", "NREL", "European Commission"]
+    },
+    {
+      "id": "industry",
+      "name": "工业",
+      "queries": ["工业减碳 钢铁 水泥 化工 示范", "industrial decarbonisation steel cement chemicals demonstration"],
+      "preferredSources": ["工业和信息化部", "IEA", "UNIDO", "European Commission", "U.S. DOE"]
+    },
+    {
+      "id": "transport",
+      "name": "交通运输",
+      "queries": ["绿色交通 电动汽车 航运 航空燃料 技术", "clean transport electric vehicle shipping aviation fuel technology"],
+      "preferredSources": ["交通运输部", "IEA", "ICAO", "IMO", "NREL"]
+    },
+    {
+      "id": "agriculture",
+      "name": "农业",
+      "queries": ["绿色农业 甲烷 肥料 精准农业 技术", "climate smart agriculture methane fertilizer precision farming technology"],
+      "preferredSources": ["农业农村部", "FAO", "CGIAR", "USDA", "Wageningen University"]
+    },
+    {
+      "id": "digital",
+      "name": "数字化",
+      "queries": ["AI 能源 数字孪生 能效 绿色数字化", "AI energy digital twin efficiency green digital technology"],
+      "preferredSources": ["工业和信息化部", "IEA", "UNEP", "NREL", "European Commission JRC"]
+    },
+    {
+      "id": "materials",
+      "name": "新材料",
+      "queries": ["绿色材料 电池材料 关键矿产 生物基材料 技术", "sustainable materials battery critical minerals bio-based technology"],
+      "preferredSources": ["国家知识产权局", "IEA", "NREL", "European Commission JRC", "DOE National Labs"]
+    },
+    {
+      "id": "negative_emissions",
+      "name": "负碳技术",
+      "queries": ["碳移除 碳捕集 CCUS 直接空气捕集 工程", "carbon removal capture CCUS direct air capture project"],
+      "preferredSources": ["生态环境部", "IEA", "U.S. DOE", "UNEP", "Mission Innovation"]
+    },
+    {
+      "id": "water",
+      "name": "水资源管理",
+      "queries": ["水处理 海水淡化 节水 灌溉 技术", "water treatment desalination irrigation technology"],
+      "preferredSources": ["水利部", "UN-Water", "UNEP", "FAO", "World Bank"]
+    },
+    {
+      "id": "circular_economy",
+      "name": "环保与循环经济",
+      "queries": ["循环经济 回收 废弃物 资源化 技术", "circular economy recycling waste resource recovery technology"],
+      "preferredSources": ["生态环境部", "国家发展改革委", "UNEP", "EEA", "European Commission"]
+    }
+  ]
+}

@@ -1,0 +1,48 @@
+:root { color-scheme: light; font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", sans-serif; background: #f3f5ef; color: #18372c; }
+* { box-sizing: border-box; }
+body { margin: 0; background: radial-gradient(circle at 100% 0%, #e7f2d8, transparent 30%), #f3f5ef; }
+.shell { max-width: 700px; padding: 26px 16px 110px; margin: 0 auto; }
+header { padding: 10px 4px 16px; }
+.eyebrow { margin: 0 0 7px; color: #6d8d51; letter-spacing: .12em; font-size: 11px; font-weight: 800; }
+h1 { margin: 0; font-size: 28px; letter-spacing: -.04em; }
+.muted, .footnote { color: #6b7d72; font-size: 13px; line-height: 1.6; }
+.tabs { display: grid; grid-template-columns: repeat(3, 1fr); gap: 7px; margin: 6px 0 14px; padding: 5px; border-radius: 14px; background: #e6ece2; }
+.tab { border: 0; padding: 10px 6px; background: transparent; font-size: 13px; }
+.tab.active { background: #fff; color: #1f644b; box-shadow: 0 4px 12px rgba(38,70,49,.08); }
+.summary { display: flex; align-items: center; justify-content: space-between; margin: 12px 0 18px; padding: 15px 16px; border-radius: 16px; background: #fff; box-shadow: 0 9px 26px rgba(38, 70, 49, .08); }
+.summary strong { display: block; margin-top: 2px; color: #1b5945; font-size: 20px; }
+.cards { display: grid; gap: 13px; }
+.card { padding: 18px; border: 1px solid #dfe7da; border-radius: 18px; background: rgba(255,255,255,.94); box-shadow: 0 8px 20px rgba(38, 70, 49, .05); }
+.card.selected { border: 2px solid #508747; background: #fbfff7; }
+.topline { display: flex; align-items: center; justify-content: space-between; gap: 12px; color: #6d8d51; font-size: 12px; font-weight: 700; }
+.score { padding: 4px 8px; border-radius: 99px; background: #e4f0db; color: #41703d; white-space: nowrap; }
+h2 { margin: 12px 0 8px; font-size: 19px; line-height: 1.36; }
+.card p { margin: 8px 0; font-size: 14px; line-height: 1.65; }
+.reasons { padding: 10px 12px; border-radius: 10px; background: #f3f7ef; color: #547063; font-size: 12px; line-height: 1.65; }
+.source { display: inline-block; margin: 10px 0 3px; color: #306f58; font-size: 13px; text-decoration: none; }
+.source-box { margin-top: 12px; padding: 12px; border-radius: 12px; background: #eef5ea; }
+.source-box strong { display: block; color: #335a47; font-size: 12px; }
+.source-url { display: block; margin-top: 5px; color: #6b7d72; font-size: 11px; line-height: 1.45; overflow-wrap: anywhere; }
+.copy-link { margin-top: 9px; padding: 6px 9px; font-size: 12px; }
+.actions { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 14px; }
+button { appearance: none; border: 1px solid #b9cdb9; padding: 9px 12px; border-radius: 10px; background: #fff; color: #27523f; font-size: 14px; font-weight: 700; cursor: pointer; }
+button.primary { border-color: #2c6d48; background: #2c6d48; color: #fff; }
+button.cover { border-color: #d0a630; color: #896400; }
+button:disabled { cursor: not-allowed; opacity: .48; }
+.notice { margin-bottom: 14px; padding: 12px; border-radius: 12px; background: #fff0d8; color: #7b4c02; font-size: 14px; }
+.notice.error { background: #ffe4df; color: #8b3025; }
+.result { margin-top: 20px; padding: 16px; border-radius: 16px; background: #e7f1df; color: #24533d; }
+.result a { display: block; margin-top: 8px; color: #1e6a4d; overflow-wrap: anywhere; }
+.review-head, .review-section { margin: 0 0 15px; padding: 18px; border-radius: 18px; background: rgba(255,255,255,.94); box-shadow: 0 8px 20px rgba(38,70,49,.05); }
+.review-head h1 { margin-bottom: 10px; }
+.metric-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin-top: 14px; }
+.metric-grid div { padding: 10px 4px; border-radius: 11px; background: #f0f5ed; text-align: center; }
+.metric-grid strong, .metric-grid span { display: block; }
+.metric-grid strong { color: #1b5945; font-size: 18px; }
+.metric-grid span { margin-top: 2px; color: #738279; font-size: 11px; }
+.domain-chip { display: inline-block; margin: 0 6px 7px 0; padding: 6px 9px; border-radius: 99px; background: #e4f0db; color: #41703d; font-size: 12px; }
+.review-story, .judgment { padding: 15px; border: 1px solid #dfe7da; border-radius: 14px; background: #fff; }
+.judgment { border-left: 4px solid #4a8a68; background: #f7faf5; }
+.review-section > h2 { margin-top: 0; }
+.hidden { display: none; }
+.footnote { margin: 28px 4px; }

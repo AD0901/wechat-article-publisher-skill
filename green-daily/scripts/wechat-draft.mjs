@@ -1,12 +1,20 @@
 import crypto from "node:crypto";
 import fs from "node:fs/promises";
 import path from "node:path";
+import process from "node:process";
 import { readJson, todayInShanghai, writeJson } from "./daily.mjs";
 
 const ROOT = path.resolve(path.dirname(new URL(import.meta.url).pathname), "..");
 const EXPORTS = path.join(ROOT, "exports");
 const RUNTIME = path.join(ROOT, "runtime");
 const MAX_NEWSPIC_IMAGES = 20;
+
+try {
+  process.loadEnvFile(path.join(ROOT, ".env"));
+} catch (error) {
+  if (error.code !== "ENOENT") throw error;
+}
+
 const PUBLISH_MODE = process.env.WECHAT_PUBLISH_MODE || "draft_only";
 
 function required(name) {

@@ -6,6 +6,8 @@
 
 ## 两个 Codex Skill
 
+第一次交给客户使用时，请先阅读[客户从零使用 Codex 操作指南](docs/客户从零使用Codex操作指南.md)。
+
 仓库包含两个可独立触发的 Skill：
 
 - `skills/weekday-green-tech-daily/`：周二至周五扫描最近 72 小时，去重后生成 3–5 条绿色技术图片日报和公众号贴图草稿。

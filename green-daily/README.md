@@ -1,14 +1,14 @@
 # PTA Green Tech Daily 编辑台
 
-这是一个可运行的 MVP，用于把“绿色新闻自动搜集 → 自动评分选题 → 自动出图 → 公众号草稿”串成一条工作流。手机编辑台只作为例外情况的替换入口，不再是每日必经步骤。
+这是一个可运行的 MVP，用于把“绿色新闻自动搜集 → 自动评分选题 → 自动出图 → 公众号贴图草稿”串成一条工作流。手机编辑台只作为例外情况的替换入口，不再是每日必经步骤。
 
-它以本项目中的 `wechat-article-publisher` 工作流为发布适配规范：封面上传为公众号素材、正文图片上传到微信 CDN、生成 UTF-8 的公众号草稿；不保存任何公众号凭证，也不模拟登录个人微信。
+它通过公众号官方 API 将封面和新闻卡上传为永久图片素材，并创建 `article_type=newspic` 的“贴图”草稿；不保存任何公众号凭证，也不模拟登录个人微信。
 
 ## 两个 Codex Skill
 
 仓库包含两个可独立触发的 Skill：
 
-- `skills/weekday-green-tech-daily/`：周二至周五扫描最近 72 小时，去重后生成 3–5 条绿色技术图片日报和公众号草稿。
+- `skills/weekday-green-tech-daily/`：周二至周五扫描最近 72 小时，去重后生成 3–5 条绿色技术图片日报和公众号贴图草稿。
 - `skills/monday-green-tech-weekend-roundup/`：周一只汇总刚过去的周六、周日，并与历史草稿去重。
 
 用户克隆仓库后，可在 Codex 中打开项目并说：
@@ -25,7 +25,7 @@ Use $weekday-green-tech-daily to prepare today’s PTA Green Tech Daily.
 Use $monday-green-tech-weekend-roundup to prepare the latest weekend roundup.
 ```
 
-也可以不安装，直接让 Codex 按对应目录中的 `SKILL.md` 执行。两个 Skill 都默认只创建公众号草稿，不直接群发。
+也可以不安装，直接让 Codex 按对应目录中的 `SKILL.md` 执行。两个 Skill 都默认只创建公众号“贴图”草稿，不直接发布或群发。
 
 克隆与初始化：
 
@@ -89,17 +89,20 @@ npm run run
 
 3. 系统按来源权威、技术/工程实质、新鲜度、中国相关性、领域覆盖与信息完整度自动评分。它不会虚构“阅读量/传播量”；没有可靠传播信号时，该项不加分。
 
-## 公众号草稿
+## 公众号贴图草稿
 
 客户提供公众号 API 后，在服务器安全配置环境变量（参考 `.env.example`），并确保服务器出口 IP 已加入公众号白名单：
 
 ```bash
 export WECHAT_APPID='客户自己的 AppID'
 export WECHAT_APPSECRET='客户自己的 AppSecret'
+export WECHAT_PUBLISH_MODE='draft_only'
 node scripts/wechat-draft.mjs
 ```
 
-该命令**默认只创建草稿**。这是有意的：客户账号的认证状态、群发额度、审核和身份验证可能不同。运营者在手机端的订阅号助手或公众号后台核验后，再安排 08:00 的正式发布。后续接到客户的账号权限信息后，可以把最后一步接到其允许的定时发布方式。
+该命令默认创建 `newspic` 图片消息，因此会进入公众号后台的“贴图”草稿，而不是“文章”草稿。图片下方文字会列出新闻摘要、原文网址和活动信息；贴图不是 HTML 文章，网址在部分微信端可能只显示为文本。
+
+如客户明确接受无人值守发布，可把 `WECHAT_PUBLISH_MODE` 改为 `auto_submit`。脚本会在创建贴图草稿后调用发布接口。这个动作是“发布”而不是“群发给全部粉丝”，仍会经过微信平台审核，提交成功不等于立即可见。默认保持 `draft_only`。
 
 ## 工作日定时任务
 
@@ -109,7 +112,7 @@ node scripts/wechat-draft.mjs
 30 6 * * 1-5 cd /path/to/green-daily && npm run run
 ```
 
-“08:00 发送”必须以客户公众号的实际发布权限为准；不要把创建草稿误当成已群发给粉丝。
+“08:00 发送”建议由定时任务在 08:00 运行 `auto_submit`，并以客户公众号的接口权限和微信审核结果为准；不要把创建草稿或提交审核误当成已群发给粉丝。
 
 ## 周一周末汇总
 

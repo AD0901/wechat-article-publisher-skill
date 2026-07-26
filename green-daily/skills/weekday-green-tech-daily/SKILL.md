@@ -5,7 +5,7 @@ description: Collect, verify, deduplicate, score, illustrate, render, and prepar
 
 # PTA 周二至周五绿色技术日报
 
-在周二至周五扫描最近 72 小时的全球绿色技术新闻，自动选择 3–5 条，生成内容相关且互不重复的图片卡和公众号草稿。默认只创建草稿，禁止直接群发。
+在周二至周五扫描最近 72 小时的全球绿色技术新闻，自动选择 3–5 条，生成内容相关且互不重复的图片卡和公众号“贴图”草稿。默认只创建贴图草稿，禁止直接群发。
 
 ## 执行顺序
 
@@ -31,8 +31,8 @@ description: Collect, verify, deduplicate, score, illustrate, render, and prepar
 10. 为每条入选新闻生成独立 `visualPrompt`。能调用图片生成工具时生成无文字、无 Logo、无水印的写实背景，并写入 `visualImage`；不能生图时使用不同的领域化备用背景并标记 `imageMode=fallback`。
 11. 运行 `npm run prepare`、`npm run auto-select` 和 `npm run render`；如果候选由检索工具补充，先按项目数据结构写入 `runtime/articles.json`。
 12. 检查导出的图片、HTML 和 `manifest.json`。有视觉模型时查看全部图片；没有视觉模型时检查尺寸、文件大小、哈希重复、文字行数、溢出和文件可打开性，不得声称完成视觉审美检查。
-13. 只有全部硬性校验通过且 `WECHAT_APPID`、`WECHAT_APPSECRET` 已安全配置时，运行 `node scripts/wechat-draft.mjs` 创建公众号草稿。禁止调用直接群发接口。
-14. 草稿创建成功后才更新发布历史。不要把“创建草稿”表述成“已经定时群发”。
+13. 只有全部硬性校验通过且 `WECHAT_APPID`、`WECHAT_APPSECRET` 已安全配置时，运行 `node scripts/wechat-draft.mjs`，用 `article_type=newspic` 创建公众号“贴图”草稿。默认 `WECHAT_PUBLISH_MODE=draft_only`。
+14. 只有用户或客户明确启用无人值守发布时，才允许使用 `WECHAT_PUBLISH_MODE=auto_submit`；这只提交微信“发布”审核，不是群发给全部粉丝。草稿创建成功后才更新发布历史，不要把“创建草稿”或“提交审核”表述成“已发布”。
 
 ## 候选结构
 
@@ -82,6 +82,6 @@ description: Collect, verify, deduplicate, score, illustrate, render, and prepar
 - `wechat-article.html`
 - `wechat-upload.html`
 - `manifest.json`
-- 可选的 `wechat-draft-result.json`
+- 可选的 `wechat-draft-result.json`（`draftType` 必须为 `newspic`）
 
 最终报告仅列出时间窗口、十大领域扫描表、入选新闻及可点击原文、国际来源缺口、图片模式、产物路径和公众号草稿状态。

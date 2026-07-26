@@ -115,7 +115,7 @@ $("#render").addEventListener("click", async () => {
     hideNotice(); $("#render").disabled = true; $("#render").textContent = "正在生成…";
     const { manifest } = await api("/api/render", { method: "POST", body: "{}" });
     const result = $("#result"); result.className = "result";
-    result.innerHTML = `<strong>日报图片已生成</strong><br>手机上可直接打开下列文件夹下载图片；公众号 API 配置好后，再点发布草稿。<a href="file://${manifest.files[0]}">${manifest.files[0]}</a>`;
+    result.innerHTML = `<strong>日报图片已生成</strong><br>手机上可直接打开下列文件夹下载图片；公众号 API 配置好后，再点“创建贴图草稿”。<a href="file://${manifest.files[0]}">${manifest.files[0]}</a>`;
   } catch (error) { show(error.message, true); }
   finally { $("#render").textContent = "生成日报图片"; $("#render").disabled = state.selectedIds.length < 3; }
 });

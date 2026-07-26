@@ -5,7 +5,7 @@ description: Collect, verify, deduplicate, score, illustrate, and prepare the Mo
 
 # PTA 周一绿色技术周末汇总
 
-生成一份只覆盖刚过去周六、周日的 `PTA Green Tech Daily`。扫描十大领域的中外一级来源，自动选择 3–5 条，按新闻内容生成不同背景图与图片卡片，最后生成公众号草稿；不要直接群发。
+生成一份只覆盖刚过去周六、周日的 `PTA Green Tech Daily`。扫描十大领域的中外一级来源，自动选择 3–5 条，按新闻内容生成不同背景图与图片卡片，最后生成公众号“贴图”草稿；不要直接群发。
 
 ## 执行顺序
 
@@ -29,8 +29,8 @@ description: Collect, verify, deduplicate, score, illustrate, and prepare the Mo
 9. 对未出现合格新闻的领域记录 `0`，不得省略领域，也不得跨领域凑数。
 10. 使用项目现有图片日报生成器。每条新闻给出不同的 `visualPrompt`，生成无文字、无水印的写实背景，再叠加确定性中文排版。不能生图时使用不同的领域化备用背景并标记 `imageMode=fallback`。
 11. 按 `references/visual-style.md` 检查封面和内页。无视觉模型时检查尺寸、文件大小、哈希、文字行数和溢出，不得声称完成视觉审美检查。
-12. 公众号正文先连续放封面与新闻图片卡，再列每条简讯和可点击原文 URL，最后保留“2026绿焰气候创新奖”活动模块。
-13. 只有硬性校验通过且公众号环境变量存在时才创建草稿。创建公众号草稿后才把入选 URL 写入 `runtime/history.json`。禁止直接群发，不要把“创建草稿”描述成“已经定时群发”。
+12. 贴图按“封面 + 新闻卡”顺序上传；图片下方纯文字依次列出每条简讯和原文 URL，最后保留“2026绿焰气候创新奖”活动模块及网址。贴图不支持文章式 HTML 排版，URL 在部分微信端可能只显示为文本。
+13. 只有硬性校验通过且公众号环境变量存在时，才用 `article_type=newspic` 创建贴图草稿。默认 `WECHAT_PUBLISH_MODE=draft_only`；只有用户或客户明确启用无人值守发布时才允许 `auto_submit`。创建成功后才把入选 URL 写入 `runtime/history.json`，不得把“创建草稿”或“提交审核”描述成“已发布”。
 
 ## 内容约束
 
@@ -62,6 +62,6 @@ description: Collect, verify, deduplicate, score, illustrate, and prepare the Mo
 - `wechat-cover.jpg`
 - `wechat-article.html`
 - `manifest.json`
-- 可选的 `wechat-draft-result.json`
+- 可选的 `wechat-draft-result.json`（`draftType` 必须为 `newspic`）
 
 自动化时间由用户另行选择；本 Skill 不自行创建或修改定时任务。

@@ -1,0 +1,4 @@
+interface:
+  display_name: "PTA 周一绿色技术周末汇总"
+  short_description: "汇总周六日全球绿色技术新闻并生成公众号图片日报草稿"
+  default_prompt: "Use $monday-green-tech-weekend-roundup to collect and prepare this weekend’s PTA Green Tech Daily roundup."

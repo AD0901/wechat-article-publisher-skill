@@ -1,0 +1,46 @@
+{
+  "brandName": "PTA Green Tech Daily",
+  "dailyName": "绿色技术日报",
+  "timezone": "Asia/Shanghai",
+  "candidateWindowDays": 3,
+  "selectionLimit": 5,
+  "defaultReleaseTime": "08:00",
+  "autoSelection": {
+    "minimum": 3,
+    "requireChinaRelated": true,
+    "minimumGlobal": 1,
+    "preferDomainDiversity": true,
+    "maxPerSource": 2
+  },
+  "sourcePolicy": {
+    "official_primary": 8,
+    "institutional_research": 5,
+    "professional_media": 0,
+    "commercial_release": -12
+  },
+  "channels": ["wechat", "xiaohongshu", "bilibili"],
+  "scoreThreshold": 42,
+  "activity": {
+    "title": "2026绿焰气候创新奖",
+    "url": "https://ff.lingxi360.com/f?fid=hfmHjbWCnd7dl&utm_bccid=LXEkvnBYg4bszpwZ",
+    "body": "2026绿焰气候创新奖正式启动征集。本届奖项以“推动绿色技术创新、促进全球气候合作”为核心目标，面向全球绿色技术创新主体，发掘具有代表性与实践价值的绿色科技成果，并依托联合国气候大会（COP31）这一国际舞台，实现技术的全球展示与传播。"
+  },
+  "coveragePolicy": {
+    "scanEveryDomain": true,
+    "allowEmptyDomain": true,
+    "requirePrimaryLink": true,
+    "requireInternationalScan": true
+  },
+  "domains": {
+    "energy_power": "能源与电力",
+    "building": "建筑",
+    "industry": "工业",
+    "transport": "交通与运输",
+    "agriculture": "农业",
+    "digital": "数字化",
+    "materials": "新材料",
+    "negative_emissions": "负碳技术",
+    "water": "水资源管理",
+    "circular_economy": "循环经济"
+  }
+}

@@ -1,0 +1,4 @@
+interface:
+  display_name: "PTA 工作日绿色技术日报"
+  short_description: "检索近72小时全球绿色技术新闻并生成公众号图片日报草稿"
+  default_prompt: "Use $weekday-green-tech-daily to prepare today’s PTA Green Tech Daily image-card WeChat draft."

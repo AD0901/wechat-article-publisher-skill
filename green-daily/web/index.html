@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>绿色日报编辑台</title>
+    <link rel="stylesheet" href="/style.css" />
+  </head>
+  <body>
+    <main class="shell">
+      <header>
+        <p class="eyebrow">PTA PLANT ALLIANCE</p>
+        <h1>绿色日报编辑台</h1>
+        <p id="meta" class="muted">正在读取今日候选…</p>
+      </header>
+      <section id="notice" class="notice hidden"></section>
+      <nav class="tabs" aria-label="日报视图">
+        <button class="tab active" data-view="today">今日候选</button>
+        <button class="tab" data-view="7">近7天回顾</button>
+        <button class="tab" data-view="30">近30天回顾</button>
+      </nav>
+      <section id="today-view">
+      <section class="summary">
+        <div><span class="muted">已选</span><strong id="selected-count">0 / 5</strong></div>
+        <button id="render" class="primary" disabled>生成日报图片</button>
+      </section>
+      <section id="candidates" class="cards"></section>
+      <section id="result" class="result hidden"></section>
+      </section>
+      <section id="review-view" class="hidden"></section>
+      <p class="footnote">系统只做候选排序。数字、政策与原文结论请在发布前人工核验。</p>
+    </main>
+    <script type="module" src="/app.js"></script>
+  </body>
+</html>

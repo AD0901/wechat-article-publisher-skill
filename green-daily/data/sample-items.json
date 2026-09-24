@@ -1,0 +1,38 @@
+[
+  {
+    "id": "sample-energy-storage",
+    "title": "示例：储能项目公布并网运行数据",
+    "summary": "这是演示数据，只用于验证手机选题、出图和草稿流程。正式发布前必须替换为可核验的原文新闻。",
+    "url": "https://example.com/replace-with-verified-source",
+    "source": "示例来源",
+    "publishedAt": "2026-07-24T00:00:00+08:00",
+    "domain": ["energy_power"],
+    "chinaRelated": true,
+    "authority": 10,
+    "evidence": "演示数据，不可用于对外发布。"
+  },
+  {
+    "id": "sample-building",
+    "title": "示例：低碳建材完成工程验证",
+    "summary": "这是演示数据，展示建筑领域新闻卡的排版和人工选题流程。",
+    "url": "https://example.com/replace-with-verified-source-2",
+    "source": "示例来源",
+    "publishedAt": "2026-07-23T00:00:00+08:00",
+    "domain": ["building", "materials"],
+    "chinaRelated": false,
+    "authority": 9,
+    "evidence": "演示数据，不可用于对外发布。"
+  },
+  {
+    "id": "sample-digital",
+    "title": "示例：数字化系统降低园区能耗",
+    "summary": "这是演示数据，展示数字化与工业场景的候选新闻。",
+    "url": "https://example.com/replace-with-verified-source-3",
+    "source": "示例来源",
+    "publishedAt": "2026-07-22T00:00:00+08:00",
+    "domain": ["digital", "industry"],
+    "chinaRelated": true,
+    "authority": 8,
+    "evidence": "演示数据，不可用于对外发布。"
+  }
+]

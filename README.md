@@ -1,6 +1,6 @@
 # wechat-article-publisher
 
-> Claude Code 技能：逐字稿 → 公众号草稿箱完整工作流
+> Codex / Claude Code 技能：逐字稿 → 公众号草稿箱完整工作流
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
@@ -181,14 +181,54 @@ npx playwright install chromium
 
 ## 安装技能
 
-将此仓库克隆到 Claude Code 的技能目录：
+### Codex 一键安装（推荐）
+
+在新电脑执行：
 
 ```bash
-mkdir -p ~/.claude/skills
-git clone https://github.com/pengcong2020520/generate-wechat-theme-skill.git ~/.claude/skills/wechat-article-publisher
+python3 ~/.codex/skills/.system/skill-installer/scripts/install-skill-from-github.py \
+  --repo AD0901/wechat-article-publisher-skill \
+  --path wechat-article-publisher
 ```
 
-不要再额外安装旧版 `generate-wechat-theme` 目录；本仓库的正式 skill 名称是 `wechat-article-publisher`。
+安装完成后重启 Codex。Skill 默认位于：
+
+```text
+~/.codex/skills/wechat-article-publisher/
+```
+
+### Codex 手动安装
+
+```bash
+git clone https://github.com/AD0901/wechat-article-publisher-skill.git /tmp/wechat-article-publisher-skill
+mkdir -p ~/.codex/skills
+cp -R /tmp/wechat-article-publisher-skill/wechat-article-publisher ~/.codex/skills/
+```
+
+### Claude Code 手动安装
+
+```bash
+git clone https://github.com/AD0901/wechat-article-publisher-skill.git /tmp/wechat-article-publisher-skill
+mkdir -p ~/.claude/skills
+cp -R /tmp/wechat-article-publisher-skill/wechat-article-publisher ~/.claude/skills/
+```
+
+不要额外安装旧版 `generate-wechat-theme` 目录；本仓库的正式 Skill 名称是 `wechat-article-publisher`。
+
+### 更新到最新版
+
+重新执行 Codex 一键安装命令即可。若目标目录已存在，先删除旧的 Skill 目录，再重新安装：
+
+```bash
+rm -rf ~/.codex/skills/wechat-article-publisher
+python3 ~/.codex/skills/.system/skill-installer/scripts/install-skill-from-github.py \
+  --repo AD0901/wechat-article-publisher-skill \
+  --path wechat-article-publisher
+```
+
+### 换电脑时需要重新配置的私密信息
+
+Git 仓库不包含微信公众号 AppSecret 或第三方生图 API Key。新电脑安装 Skill 后，还需要重新创建 `~/.wechat/config`，并按需配置 `STEP_API_KEY`。不要把这些凭证提交到 Git。
 
 ## 使用指南
 
